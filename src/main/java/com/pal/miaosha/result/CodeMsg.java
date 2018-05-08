@@ -1,4 +1,4 @@
-package com.pal.miaosha.Result;
+package com.pal.miaosha.result;
 
 public class CodeMsg {
 

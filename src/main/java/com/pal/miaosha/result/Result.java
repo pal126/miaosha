@@ -1,4 +1,4 @@
-package com.pal.miaosha.Result;
+package com.pal.miaosha.result;
 
 public class Result<T> {
 
@@ -57,7 +57,7 @@ public class Result<T> {
 
     @Override
     public String toString() {
-        return "Result{" +
+        return "result{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", data=" + data +

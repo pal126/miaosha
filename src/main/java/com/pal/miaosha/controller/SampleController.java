@@ -1,6 +1,6 @@
 package com.pal.miaosha.controller;
 
-import com.pal.miaosha.Result.Result;
+import com.pal.miaosha.result.Result;
 import com.pal.miaosha.domain.User;
 import com.pal.miaosha.redis.RedisService;
 import com.pal.miaosha.redis.UserKey;
