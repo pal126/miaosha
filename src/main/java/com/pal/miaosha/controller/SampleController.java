@@ -44,7 +44,7 @@ public class SampleController {
     @RequestMapping("/redisSet")
     @ResponseBody
     public Result<Boolean> setRedis() {
-        User user = new User(1,"root");
+        User user = new User();
         boolean flag = redisService.set(UserKey.getById,""+1,user);
         return Result.success(flag);
     }
