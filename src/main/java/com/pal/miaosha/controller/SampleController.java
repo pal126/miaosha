@@ -1,7 +1,7 @@
 package com.pal.miaosha.controller;
 
-import com.pal.miaosha.domain.Usera;
-import com.pal.miaosha.service.UserServicea;
+import com.pal.miaosha.domain.User;
+import com.pal.miaosha.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/demo")
-public class SampleControllera {
+public class SampleController {
 
     @Autowired
-    UserServicea userService;
+    UserService userService;
 
     @RequestMapping("/thymeleaf")
     public String thymeleaf(Model model) {
@@ -23,7 +23,7 @@ public class SampleControllera {
 
     @RequestMapping("/user")
     @ResponseBody
-    public Usera getById() {
+    public User getById() {
         return userService.getById(1);
     }
 

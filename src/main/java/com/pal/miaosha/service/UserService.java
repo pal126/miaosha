@@ -1,17 +1,17 @@
 package com.pal.miaosha.service;
 
-import com.pal.miaosha.dao.UserDaoa;
-import com.pal.miaosha.domain.Usera;
+import com.pal.miaosha.dao.UserDao;
+import com.pal.miaosha.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServicea {
+public class UserService {
 
     @Autowired
-    UserDaoa userDao;
+    UserDao userDao;
 
-    public Usera getById(int id) {
+    public User getById(int id) {
         return userDao.getById(id);
     }
 

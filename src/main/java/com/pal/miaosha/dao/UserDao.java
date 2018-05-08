@@ -1,14 +1,14 @@
 package com.pal.miaosha.dao;
 
-import com.pal.miaosha.domain.Usera;
+import com.pal.miaosha.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface UserDaoa {
+public interface UserDao {
 
     @Select("select * from user where id = #{id}")
-    Usera getById(@Param("id") int id);
+    User getById(@Param("id") int id);
 
 }

@@ -1,6 +1,6 @@
 package com.pal.miaosha.domain;
 
-public class Usera {
+public class User {
     private int id;
     private String name;
 
@@ -22,7 +22,7 @@ public class Usera {
 
     @Override
     public String toString() {
-        return "Usera{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

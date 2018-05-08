@@ -1,6 +1,6 @@
 package com.pal.miaosha.Result;
 
-public class Resulta<T> {
+public class Result<T> {
 
     private int code;
     private String msg;
@@ -9,27 +9,27 @@ public class Resulta<T> {
     /**
      *  成功时候的调用
      * */
-    public static  <T> Resulta<T> success(T data){
-        return new Resulta<T>(data);
+    public static  <T> Result<T> success(T data){
+        return new Result<T>(data);
     }
 
     /**
      *  失败时候的调用
      * */
-    public static  <T> Resulta<T> error(CodeMsga codeMsg){
-        return new Resulta<T>(codeMsg);
+    public static  <T> Result<T> error(CodeMsg codeMsg){
+        return new Result<T>(codeMsg);
     }
 
-    private Resulta(T data) {
+    private Result(T data) {
         this.data = data;
     }
 
-    private Resulta(int code, String msg) {
+    private Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    private Resulta(CodeMsga codeMsg) {
+    private Result(CodeMsg codeMsg) {
         if(codeMsg != null) {
             this.code = codeMsg.getCode();
             this.msg = codeMsg.getMsg();
@@ -57,7 +57,7 @@ public class Resulta<T> {
 
     @Override
     public String toString() {
-        return "Resulta{" +
+        return "Result{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", data=" + data +
