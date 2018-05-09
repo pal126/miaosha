@@ -27,12 +27,12 @@ public class SampleController {
         return "hello";
     }
 
-    @RequestMapping("/user")
+/*    @RequestMapping("/user")
     @ResponseBody
     public Result getById() {
         User user = userService.getById(1);
         return Result.success(user);
-    }
+    }*/
 
     @RequestMapping("/redisGet")
     @ResponseBody

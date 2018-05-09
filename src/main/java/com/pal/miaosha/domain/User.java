@@ -3,20 +3,20 @@ package com.pal.miaosha.domain;
 import java.util.Date;
 
 public class User {
-    private int id;
+    private Long id;
     private String nickname;
     private String password;
     private String salt;
     private String head;
     private Date registerDate;
     private Date lastLoginDate;
-    private int loginCount;
+    private Integer loginCount;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,11 +68,11 @@ public class User {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public int getLoginCount() {
+    public Integer getLoginCount() {
         return loginCount;
     }
 
-    public void setLoginCount(int loginCount) {
+    public void setLoginCount(Integer loginCount) {
         this.loginCount = loginCount;
     }
 }
