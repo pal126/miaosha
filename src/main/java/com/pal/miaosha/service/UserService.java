@@ -31,6 +31,12 @@ public class UserService {
         return userDao.getById(id);
     }
 
+    /**
+     * 验证cookie里的token
+     * @param response
+     * @param token
+     * @return
+     */
     public User getByToken(HttpServletResponse response, String token) {
         if(StringUtils.isEmpty(token)) {
             return null;
@@ -43,6 +49,12 @@ public class UserService {
         return user;
     }
 
+    /**
+     * 登陆
+     * @param response
+     * @param loginVo
+     * @return
+     */
     public Boolean login(HttpServletResponse response, LoginVo loginVo) {
         if (loginVo == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
@@ -63,6 +75,12 @@ public class UserService {
         return true;
     }
 
+    /**
+     * 添加token到cookie
+     * @param response
+     * @param token
+     * @param user
+     */
     private void addCookie(HttpServletResponse response, String token, User user) {
         redisService.set(UserKey.token, token, user);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
