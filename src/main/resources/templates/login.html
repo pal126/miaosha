@@ -81,11 +81,11 @@ function doLogin(){
 	    },
 	    success:function(data){
 	    	layer.closeAll();
-	    	if(data.data.code == 0){
+	    	if(data.code == 0){
 	    		layer.msg("成功");
 	    		window.location.href="/goods/to_list";
 	    	}else{
-	    		layer.msg(data.data.msg);
+	    		layer.msg(data.msg);
 	    	}
 	    },
 	    error:function(){

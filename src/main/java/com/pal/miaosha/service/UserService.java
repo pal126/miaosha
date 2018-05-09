@@ -2,6 +2,7 @@ package com.pal.miaosha.service;
 
 import com.pal.miaosha.dao.UserDao;
 import com.pal.miaosha.domain.User;
+import com.pal.miaosha.exception.GlobalException;
 import com.pal.miaosha.result.CodeMsg;
 import com.pal.miaosha.util.MD5Util;
 import com.pal.miaosha.vo.LoginVo;
@@ -18,18 +19,21 @@ public class UserService {
         return userDao.getById(id);
     }
 
-    public CodeMsg login(LoginVo loginVo) {
+    public Boolean login(LoginVo loginVo) {
+        if (loginVo == null) {
+            throw new GlobalException(CodeMsg.SERVER_ERROR);
+        }
         String mobile = loginVo.getMobile();
         User user = getById(Long.valueOf(mobile));
         //手机号是否存在
         if (user == null) {
-            return CodeMsg.MOBILE_NOT_EXIST;
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
         String pass = MD5Util.formPassToDBPass(loginVo.getPassword(),user.getSalt());
         //密码是否正确
         if (!pass.equals(user.getPassword())) {
-            return CodeMsg.PASSWORD_ERROR;
+            throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        return CodeMsg.SUCCESS;
+        return true;
     }
 }

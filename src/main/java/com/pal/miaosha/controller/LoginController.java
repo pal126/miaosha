@@ -38,9 +38,9 @@ public class LoginController {
      */
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result<CodeMsg> login(@Valid LoginVo loginVo) {
-        CodeMsg codeMsg = userService.login(loginVo);
-        return Result.success(codeMsg);
+    public Result<Boolean> login(@Valid LoginVo loginVo) {
+        userService.login(loginVo);
+        return Result.success(true);
     }
 
 }
