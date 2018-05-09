@@ -34,7 +34,7 @@ public class SampleController {
         return Result.success(user);
     }*/
 
-    @RequestMapping("/redisGet")
+    /*@RequestMapping("/redisGet")
     @ResponseBody
     public Result<User> getRedis() {
         User user = redisService.get(UserKey.getById,""+1,User.class);
@@ -47,6 +47,6 @@ public class SampleController {
         User user = new User();
         boolean flag = redisService.set(UserKey.getById,""+1,user);
         return Result.success(flag);
-    }
+    }*/
 
 }

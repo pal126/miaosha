@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
             String msg = ex.getMessage();
             return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
         }else {
+            System.out.println(e.getMessage());
             return Result.error(CodeMsg.SERVER_ERROR);
         }
     }
