@@ -58,7 +58,6 @@ public class RedisService {
             }else {
                 jedis.setex(realKey,seconds,str);
             }
-
             return true;
         } finally {
             returnToPool(jedis);
@@ -151,7 +150,6 @@ public class RedisService {
         }else {
             return JSON.toJSONString(value);
         }
-
     }
 
     private void returnToPool(Jedis jedis) {
