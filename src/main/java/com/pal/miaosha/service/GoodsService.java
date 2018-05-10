@@ -13,8 +13,20 @@ public class GoodsService {
     @Autowired
     GoodsDao goodsDao;
 
+    /**
+     * 商品列表
+     * @return
+     */
     public List<GoodsVo> listGoodsVo() {
         return goodsDao.listGoodsVo();
+    }
+
+    /**
+     * 商品详情
+     * @return
+     */
+    public GoodsVo getGoodsVo(Long id) {
+        return goodsDao.getGoodsVo(id);
     }
 
 }
