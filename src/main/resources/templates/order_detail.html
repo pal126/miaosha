@@ -24,11 +24,11 @@
   <table class="table" id="goodslist">
         <tr>  
         <td>商品名称</td>  
-        <td th:text="${goods.goodsName}" colspan="3"></td> 
+        <td th:text="${goodsVo.goodsName}" colspan="3"></td>
      </tr>  
      <tr>  
         <td>商品图片</td>  
-        <td colspan="2"><img th:src="@{${goods.goodsImg}}" width="200" height="200" /></td>  
+        <td colspan="2"><img th:src="@{${goodsVo.goodsImg}}" width="200" height="200" /></td>
      </tr>
       <tr>  
         <td>订单价格</td>  

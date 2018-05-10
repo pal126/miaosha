@@ -10,5 +10,5 @@ public class Goods {
     private String goodsImg;
     private String goodsDetail;
     private Double goodsPrice;
-    private String goodsStock;
+    private Integer goodsStock;
 }
