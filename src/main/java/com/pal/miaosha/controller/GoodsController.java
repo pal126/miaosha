@@ -74,13 +74,41 @@ public class GoodsController {
      * 商品详情页面
      * @return
      */
-    @RequestMapping("/to_detail/{id}")
-    public String toDetail(Model model, User user, @PathVariable("id") Long id) {
+    @RequestMapping(value = "/to_detail/{id}", produces = "text/html")
+    @ResponseBody
+    public String toDetail(HttpServletRequest request, HttpServletResponse response, Model model, User user, @PathVariable("id") Long id) {
+
         model.addAttribute("user",user);
+        //取redis缓存
+        String html = redisService.get(GoodsKey.getGoodsDetail, "" + id, String.class);
+        if (StringUtils.isNotEmpty(html)) {
+            return html;
+        }
+
         //查询商品
         GoodsVo goodsVo = goodsService.getGoodsVo(id);
         model.addAttribute("goodsVo",goodsVo);
+        //检查秒杀活动是否进行
+        checkTime(model, goodsVo);
+        //把model加入SpringWebContext
+        SpringWebContext ctx = new SpringWebContext(request, response, request.getServletContext(),
+                request.getLocale(), model.asMap(), applicationContext);
+        //spring boot渲染页面
+        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail",ctx);
+        //写入redis缓存
+        if (StringUtils.isNotEmpty(html)) {
+            redisService.set(GoodsKey.getGoodsDetail, "" + id, html);
+        }
+        return html;
+    }
 
+    /**
+     * 检查秒杀活动是否进行
+     * @param model
+     * @param goodsVo
+     * @return
+     */
+    private void checkTime(Model model, GoodsVo goodsVo) {
         long startAt = goodsVo.getStartDate().getTime();
         long endAt = goodsVo.getEndDate().getTime();
         long now = System.currentTimeMillis();
@@ -99,6 +127,5 @@ public class GoodsController {
         }
         model.addAttribute("miaoshaStatus", miaoshaStatus);
         model.addAttribute("remainSeconds", remainSeconds);
-        return "goods_detail";
     }
 }
