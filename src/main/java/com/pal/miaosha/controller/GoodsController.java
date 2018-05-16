@@ -3,8 +3,10 @@ package com.pal.miaosha.controller;
 import com.pal.miaosha.domain.User;
 import com.pal.miaosha.redis.GoodsKey;
 import com.pal.miaosha.redis.RedisService;
+import com.pal.miaosha.result.Result;
 import com.pal.miaosha.service.GoodsService;
 import com.pal.miaosha.service.UserService;
+import com.pal.miaosha.vo.GoodsDetailVo;
 import com.pal.miaosha.vo.GoodsVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,41 +76,22 @@ public class GoodsController {
      * 商品详情页面
      * @return
      */
-    @RequestMapping(value = "/to_detail/{id}", produces = "text/html")
+    @RequestMapping(value = "/detail/{id}")
     @ResponseBody
-    public String toDetail(HttpServletRequest request, HttpServletResponse response, Model model, User user, @PathVariable("id") Long id) {
-
-        model.addAttribute("user",user);
-        //取redis缓存
-        String html = redisService.get(GoodsKey.getGoodsDetail, "" + id, String.class);
-        if (StringUtils.isNotEmpty(html)) {
-            return html;
-        }
-
+    public Result<GoodsDetailVo> detail(User user, @PathVariable("id") Long id) {
         //查询商品
         GoodsVo goodsVo = goodsService.getGoodsVo(id);
-        model.addAttribute("goodsVo",goodsVo);
         //检查秒杀活动是否进行
-        checkTime(model, goodsVo);
-        //把model加入SpringWebContext
-        SpringWebContext ctx = new SpringWebContext(request, response, request.getServletContext(),
-                request.getLocale(), model.asMap(), applicationContext);
-        //spring boot渲染页面
-        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail",ctx);
-        //写入redis缓存
-        if (StringUtils.isNotEmpty(html)) {
-            redisService.set(GoodsKey.getGoodsDetail, "" + id, html);
-        }
-        return html;
+        GoodsDetailVo goodsDetailVo = checkTime(user, goodsVo);
+        return Result.success(goodsDetailVo);
     }
 
     /**
      * 检查秒杀活动是否进行
-     * @param model
      * @param goodsVo
      * @return
      */
-    private void checkTime(Model model, GoodsVo goodsVo) {
+    private GoodsDetailVo checkTime(User user, GoodsVo goodsVo) {
         long startAt = goodsVo.getStartDate().getTime();
         long endAt = goodsVo.getEndDate().getTime();
         long now = System.currentTimeMillis();
@@ -125,7 +108,11 @@ public class GoodsController {
             miaoshaStatus = 1;
             remainSeconds = 0;
         }
-        model.addAttribute("miaoshaStatus", miaoshaStatus);
-        model.addAttribute("remainSeconds", remainSeconds);
+        GoodsDetailVo goodsDetailVo = new GoodsDetailVo();
+        goodsDetailVo.setMiaoshaStatus(miaoshaStatus);
+        goodsDetailVo.setRemainSeconds(remainSeconds);
+        goodsDetailVo.setUser(user);
+        goodsDetailVo.setGoodsVo(goodsVo);
+        return goodsDetailVo;
     }
 }

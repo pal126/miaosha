@@ -4,6 +4,8 @@ import com.pal.miaosha.dao.OrderDao;
 import com.pal.miaosha.domain.MiaoshaOrder;
 import com.pal.miaosha.domain.OrderInfo;
 import com.pal.miaosha.domain.User;
+import com.pal.miaosha.redis.OrderKey;
+import com.pal.miaosha.redis.RedisService;
 import com.pal.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class OrderService {
     @Autowired
     OrderDao orderDao;
 
+    @Autowired
+    RedisService redisService;
+
     /**
      * 判断是否已经秒杀
      * @param userId
@@ -24,7 +29,11 @@ public class OrderService {
      * @return
      */
     public MiaoshaOrder getOrderByUserIdGoodsId(Long userId, Long goodsId) {
-        return orderDao.getOrderByUserIdGoodsId(userId, goodsId);
+        return redisService.get(OrderKey.getOrderByUidGid, ""+userId+"_"+goodsId, MiaoshaOrder.class);
+    }
+
+    public OrderInfo getOrderById(Long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 
     /**
@@ -51,6 +60,7 @@ public class OrderService {
         miaoshaOrder.setUserId(user.getId());
         miaoshaOrder.setOrderId(orderId);
         orderDao.insertMiaoshaOrder(miaoshaOrder);
+        redisService.set(OrderKey.getOrderByUidGid, ""+user.getId()+"_"+goodsVo.getId(), miaoshaOrder);
         return orderInfo;
     }
 
