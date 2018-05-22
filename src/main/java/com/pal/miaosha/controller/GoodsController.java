@@ -44,7 +44,7 @@ public class GoodsController {
 
     /**
      * 商品列表页面
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/to_list", produces = "text/html")
     @ResponseBody
@@ -74,7 +74,7 @@ public class GoodsController {
 
     /**
      * 商品详情页面
-     * @return
+     * @return Result
      */
     @RequestMapping(value = "/detail/{id}")
     @ResponseBody
@@ -88,8 +88,8 @@ public class GoodsController {
 
     /**
      * 检查秒杀活动是否进行
-     * @param goodsVo
-     * @return
+     * @param goodsVo goodsVo
+     * @return GoodsDetailVo
      */
     private GoodsDetailVo checkTime(User user, GoodsVo goodsVo) {
         long startAt = goodsVo.getStartDate().getTime();
@@ -98,13 +98,16 @@ public class GoodsController {
 
         int miaoshaStatus = 0;
         int remainSeconds = 0;
-        if(now < startAt ) {//秒杀还没开始，倒计时
+        if(now < startAt ) {
+            //秒杀还没开始，倒计时
             miaoshaStatus = 0;
             remainSeconds = (int)((startAt - now )/1000);
-        }else if(now > endAt){//秒杀已经结束
+        }else if(now > endAt){
+            //秒杀已经结束
             miaoshaStatus = 2;
             remainSeconds = -1;
-        }else {//秒杀进行中
+        }else {
+            //秒杀进行中
             miaoshaStatus = 1;
             remainSeconds = 0;
         }
