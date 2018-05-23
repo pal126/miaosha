@@ -35,10 +35,11 @@ public class GoodsService {
      * @param goodsVo
      * @return
      */
-    public int reduceStock(GoodsVo goodsVo) {
+    public boolean reduceStock(GoodsVo goodsVo) {
         MiaoshaGoods miaoshaGoods = new MiaoshaGoods();
         miaoshaGoods.setGoodsId(goodsVo.getId());
-        return goodsDao.reduceStock(miaoshaGoods);
+        int count = goodsDao.reduceStock(miaoshaGoods);
+        return count > 0;
     }
 
 }

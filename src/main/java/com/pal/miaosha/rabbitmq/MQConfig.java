@@ -11,6 +11,8 @@ import java.util.Map;
 @Configuration
 public class MQConfig {
 
+    public static final String ORDER_QUEUE = "order.queue";
+
     public static final String QUEUE = "queue";
     public static final String TOPIC_QUEUE1 = "topic.queue1";
     public static final String TOPIC_QUEUE2 = "topic.queue2";

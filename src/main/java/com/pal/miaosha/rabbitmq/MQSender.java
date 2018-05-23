@@ -1,6 +1,7 @@
 package com.pal.miaosha.rabbitmq;
 
 import com.pal.miaosha.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -12,11 +13,22 @@ import org.springframework.stereotype.Service;
  * @author pal
  * @date 2018/05/21
  */
+@Slf4j
 @Service
 public class MQSender {
 
     @Autowired
     AmqpTemplate amqpTemplate;
+
+    /**
+     * 秒杀订单
+     * @param orderMessage
+     */
+    public void sendOrderMessage(OrderMessage orderMessage) {
+        String msg = RedisService.beanToString(orderMessage);
+        log.info("msg:{}", msg);
+        amqpTemplate.convertAndSend(MQConfig.ORDER_QUEUE,msg);
+    }
 
     /**
      * Direct
