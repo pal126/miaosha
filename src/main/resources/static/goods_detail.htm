@@ -38,7 +38,7 @@
         </td>
         <td>
         	<form id="miaoshaForm" method="post" action="/miaosha/ms">
-        		<button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="miaosha()">立即秒杀</button>
+        		<button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="getPath()">立即秒杀</button>
         		<input type="hidden" name="goodsId" id="goodsId"/>
         	</form>
         </td>
@@ -63,9 +63,31 @@ $(function(){
 	getDetail();
 });
 
-function miaosha() {
+function getPath() {
+    var goodsId = $("#goodsId").val();
     $.ajax({
-        url:"/miaosha/ms",
+        url:"/miaosha/path",
+        type:"GET",
+        data:{
+            goodsId:goodsId,
+        },
+        success:function(data){
+            if(data.code == 0){
+                var path = data.data;
+                miaosha(path);
+            }else{
+                layer.msg(data.msg);
+            }
+        },
+        error:function(){
+            layer.msg("请求出错");
+        }
+    });
+}
+
+function miaosha(path) {
+    $.ajax({
+        url:"/miaosha/" + path + "/ms",
         type:"POST",
         data:{
             goodsId:$("#goodsId").val(),
@@ -100,7 +122,7 @@ function getResult(goodsId) {
                 } else if (result == 0) {
                     setTimeout(function () {
                         getResult(goodsId);
-                    }, 50);
+                    }, 200);
                 } else {
                     layer.confirm("秒杀成功,查看订单?", {btn:["确定","取消"]},
                     function () {
