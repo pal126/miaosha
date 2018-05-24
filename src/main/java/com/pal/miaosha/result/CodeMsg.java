@@ -10,6 +10,8 @@ public class CodeMsg {
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
     public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(500102, "非法请求");
+    public static CodeMsg REQUEST_OVER_LIMIT = new CodeMsg(500103, "请求次数过多,请稍后再试");
+    public static Integer REQUEST_LIMIT = 5;
     //登录模块 5002XX
     public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "Session不存在或者已经失效");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "登录密码不能为空");

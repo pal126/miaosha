@@ -5,6 +5,7 @@ import com.pal.miaosha.domain.OrderInfo;
 import com.pal.miaosha.domain.User;
 import com.pal.miaosha.rabbitmq.MQSender;
 import com.pal.miaosha.rabbitmq.OrderMessage;
+import com.pal.miaosha.redis.AccessKey;
 import com.pal.miaosha.redis.GoodsKey;
 import com.pal.miaosha.redis.MiaoshaKey;
 import com.pal.miaosha.redis.RedisService;
@@ -22,10 +23,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 秒杀系统
+ * @author pal
+ * @date 2018/05/16
+ */
 @Controller
 @RequestMapping("/miaosha")
 public class MiaoshaController implements InitializingBean{
@@ -70,11 +77,23 @@ public class MiaoshaController implements InitializingBean{
      */
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
-    public Result<String> getPath(Model model, User user, @RequestParam("goodsId")long goodsId) {
+    public Result<String> getPath(HttpServletRequest request, Model model, User user, @RequestParam("goodsId")long goodsId) {
         model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
+        //接口限流防刷
+        String uri = request.getRequestURI();
+        String key = uri + "_" + user.getId();
+        Integer count = redisService.get(AccessKey.access, key, Integer.class);
+        if (count == null) {
+            redisService.set(AccessKey.access, key, 1);
+        } else if (count < CodeMsg.REQUEST_LIMIT) {
+            redisService.incr(AccessKey.access, key);
+        } else {
+            return Result.error(CodeMsg.REQUEST_OVER_LIMIT);
+        }
+        //生成随机path
         String str = MD5Util.MD5(UUIDUtil.uuid() + "abc123");
         redisService.set(MiaoshaKey.getPath, ""+user.getId()+"_"+goodsId, str);
         return Result.success(str);
