@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 
 /**
- * @AccessLimit拦截器
+ * AccessLimit拦截器
  * @author pal
  * @date 2018/05/16
  */
@@ -34,16 +34,16 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 拦截业务处理
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
+     * @param request request
+     * @param response response
+     * @param handler handler
+     * @return boolean
+     * @throws Exception Exception
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (handler instanceof HandlerMethod) {
 
+        if (handler instanceof HandlerMethod) {
             //user信息存入threadLocal
             User user = getUser(request, response);
             UserContext.setUser(user);
@@ -85,17 +85,23 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * close threadLocal
-     * @param request
-     * @param response
-     * @param handler
-     * @param ex
-     * @throws Exception
+     * @param request request
+     * @param response response
+     * @param handler handler
+     * @param ex ex
+     * @throws Exception Exception
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         UserContext.remove();
     }
 
+    /**
+     * 返回消息到前端
+     * @param response response
+     * @param codeMsg codeMsg
+     * @throws Exception Exception
+     */
     private void render(HttpServletResponse response, CodeMsg codeMsg) throws Exception {
         response.setContentType("application/json;charset=UTF-8");
         OutputStream out = response.getOutputStream();
