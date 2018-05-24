@@ -1,7 +1,7 @@
 package com.pal.miaosha.controller;
 
+import com.pal.miaosha.access.AccessLimit;
 import com.pal.miaosha.domain.MiaoshaOrder;
-import com.pal.miaosha.domain.OrderInfo;
 import com.pal.miaosha.domain.User;
 import com.pal.miaosha.rabbitmq.MQSender;
 import com.pal.miaosha.rabbitmq.OrderMessage;
@@ -75,23 +75,13 @@ public class MiaoshaController implements InitializingBean{
      * 客户端请求接口地址
      * @return
      */
+    @AccessLimit(seconds = 5, maxCount = 5)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
     public Result<String> getPath(HttpServletRequest request, Model model, User user, @RequestParam("goodsId")long goodsId) {
         model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
-        }
-        //接口限流防刷
-        String uri = request.getRequestURI();
-        String key = uri + "_" + user.getId();
-        Integer count = redisService.get(AccessKey.access, key, Integer.class);
-        if (count == null) {
-            redisService.set(AccessKey.access, key, 1);
-        } else if (count < CodeMsg.REQUEST_LIMIT) {
-            redisService.incr(AccessKey.access, key);
-        } else {
-            return Result.error(CodeMsg.REQUEST_OVER_LIMIT);
         }
         //生成随机path
         String str = MD5Util.MD5(UUIDUtil.uuid() + "abc123");
