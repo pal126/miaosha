@@ -34,6 +34,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 拦截业务处理
+     * preHandle在进入controller之前调用
      * @param request request
      * @param response response
      * @param handler handler
@@ -84,7 +85,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     }
 
     /**
-     * close threadLocal
+     * 关闭threadLocal
+     * 在所有动作完成后调用afterCompletion
      * @param request request
      * @param response response
      * @param handler handler
