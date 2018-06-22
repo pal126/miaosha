@@ -2,6 +2,7 @@ package com.pal.miaosha.exception;
 
 import com.pal.miaosha.result.CodeMsg;
 import com.pal.miaosha.result.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,6 +13,7 @@ import java.net.BindException;
 /**
  * 全局异常处理器
  */
+@Slf4j
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
@@ -27,7 +29,7 @@ public class GlobalExceptionHandler {
             String msg = ex.getMessage();
             return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
         }else {
-            e.printStackTrace();
+            log.error("exception:{}", e.toString());
             return Result.error(CodeMsg.SERVER_ERROR);
         }
     }

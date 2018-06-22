@@ -3,8 +3,6 @@ package com.pal.miaosha.rabbitmq;
 import com.pal.miaosha.domain.MiaoshaOrder;
 import com.pal.miaosha.domain.User;
 import com.pal.miaosha.redis.RedisService;
-import com.pal.miaosha.result.CodeMsg;
-import com.pal.miaosha.result.Result;
 import com.pal.miaosha.service.GoodsService;
 import com.pal.miaosha.service.MiaoshaService;
 import com.pal.miaosha.service.OrderService;
@@ -62,12 +60,17 @@ public class MQReceiver {
 
     @RabbitListener(queues = MQConfig.TOPIC_QUEUE1)
     public void receiceTopic1(String message) {
-        log.info("msg:{}",message);
+        StringBuffer sbu = new StringBuffer();
+        String[] chars = message.split(",");
+        for (int i = 0; i < chars.length; i++) {
+            sbu.append((char) Integer.parseInt(chars[i]));
+        }
+        log.info("msg:{}",sbu.toString());
     }
 
     @RabbitListener(queues = MQConfig.TOPIC_QUEUE2)
     public void receiceTopic2(String message) {
-        log.info("msg:{}",message);
+        log.info("接收数据msg:{}",message);
     }
 
     @RabbitListener(queues = MQConfig.HEADERS_QUEUE)
