@@ -14,6 +14,7 @@ public class RedisService {
 
     /**
      * 获取对象
+     *
      * @param keyPrefix
      * @param key
      * @param clazz
@@ -27,7 +28,7 @@ public class RedisService {
             //生成key
             String realKey = keyPrefix.getPrefix() + key;
             String str = jedis.get(realKey);
-            return stringToBean(str,clazz);
+            return stringToBean(str, clazz);
         } finally {
             returnToPool(jedis);
         }
@@ -35,6 +36,7 @@ public class RedisService {
 
     /**
      * 设置对象
+     *
      * @param keyPrefix
      * @param key
      * @param value
@@ -52,11 +54,11 @@ public class RedisService {
             //生成key
             String realKey = keyPrefix.getPrefix() + key;
             //检查有效期
-            int seconds =  keyPrefix.expireSeconds();
+            int seconds = keyPrefix.expireSeconds();
             if (seconds <= 0) {
-                jedis.set(realKey,str);
-            }else {
-                jedis.setex(realKey,seconds,str);
+                jedis.set(realKey, str);
+            } else {
+                jedis.setex(realKey, seconds, str);
             }
             return true;
         } finally {
@@ -66,6 +68,7 @@ public class RedisService {
 
     /**
      * 判断key是否存在
+     *
      * @param keyPrefix
      * @param key
      * @param <T>
@@ -85,6 +88,7 @@ public class RedisService {
 
     /**
      * 增加值
+     *
      * @param keyPrefix
      * @param key
      * @param <T>
@@ -104,6 +108,7 @@ public class RedisService {
 
     /**
      * 减少值
+     *
      * @param keyPrefix
      * @param key
      * @param <T>
@@ -121,18 +126,18 @@ public class RedisService {
         }
     }
 
-    public static <T> T stringToBean(String string,Class<T> clazz) {
+    public static <T> T stringToBean(String string, Class<T> clazz) {
         if (string == null || string.length() <= 0 || clazz == null) {
             return null;
         }
         if (clazz == int.class || clazz == Integer.class) {
-            return (T)Integer.valueOf(string);
-        }else if (clazz == String.class) {
-            return (T)string;
-        }else if (clazz == long.class || clazz == Long.class) {
-            return (T)Long.valueOf(string);
-        }else {
-            return JSON.toJavaObject(JSON.parseObject(string),clazz);
+            return (T) Integer.valueOf(string);
+        } else if (clazz == String.class) {
+            return (T) string;
+        } else if (clazz == long.class || clazz == Long.class) {
+            return (T) Long.valueOf(string);
+        } else {
+            return JSON.toJavaObject(JSON.parseObject(string), clazz);
         }
     }
 
@@ -143,11 +148,11 @@ public class RedisService {
         Class<?> clazz = value.getClass();
         if (clazz == int.class || clazz == Integer.class) {
             return "" + value;
-        }else if (clazz == String.class) {
+        } else if (clazz == String.class) {
             return (String) value;
-        }else if (clazz == long.class || clazz == Long.class) {
+        } else if (clazz == long.class || clazz == Long.class) {
             return "" + value;
-        }else {
+        } else {
             return JSON.toJSONString(value);
         }
     }

@@ -25,6 +25,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * 注册拦截器
+     *
      * @param registry
      */
     @Override

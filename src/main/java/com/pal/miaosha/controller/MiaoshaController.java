@@ -30,12 +30,12 @@ import java.util.Map;
 
 /**
  * 秒杀系统
+ *
  * @author pal
- * @date 2018/05/16
  */
 @Controller
 @RequestMapping("/miaosha")
-public class MiaoshaController implements InitializingBean{
+public class MiaoshaController implements InitializingBean {
 
     @Autowired
     GoodsService goodsService;
@@ -56,6 +56,7 @@ public class MiaoshaController implements InitializingBean{
 
     /**
      * 系统初始化
+     *
      * @throws Exception
      */
     @Override
@@ -73,29 +74,31 @@ public class MiaoshaController implements InitializingBean{
 
     /**
      * 客户端请求接口地址
+     *
      * @return
      */
     @AccessLimit(seconds = 5, maxCount = 5)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
-    public Result<String> getPath(HttpServletRequest request, Model model, User user, @RequestParam("goodsId")long goodsId) {
+    public Result<String> getPath(HttpServletRequest request, Model model, User user, @RequestParam("goodsId") long goodsId) {
         model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
         //生成随机path
         String str = MD5Util.MD5(UUIDUtil.uuid() + "abc123");
-        redisService.set(MiaoshaKey.getPath, ""+user.getId()+"_"+goodsId, str);
+        redisService.set(MiaoshaKey.getPath, "" + user.getId() + "_" + goodsId, str);
         return Result.success(str);
     }
 
     /**
      * 客户端轮询下单结果
+     *
      * @return
      */
     @RequestMapping(value = "/result", method = RequestMethod.GET)
     @ResponseBody
-    public Result<Long> result(Model model, User user, @RequestParam("goodsId")long goodsId) {
+    public Result<Long> result(Model model, User user, @RequestParam("goodsId") long goodsId) {
         model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
@@ -103,14 +106,16 @@ public class MiaoshaController implements InitializingBean{
         Long result = miaoshaService.getResult(user.getId(), goodsId);
         return Result.success(result);
     }
+
     /**
      * 商品秒杀
+     *
      * @return
      */
     @RequestMapping(value = "/{path}/ms", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> ms(Model model, User user, @RequestParam("goodsId")long goodsId, @PathVariable("path") String path) {
-        model.addAttribute("user",user);
+    public Result<Integer> ms(Model model, User user, @RequestParam("goodsId") long goodsId, @PathVariable("path") String path) {
+        model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
@@ -121,7 +126,7 @@ public class MiaoshaController implements InitializingBean{
         }
 
         //验证path
-        String redisPath = redisService.get(MiaoshaKey.getPath, ""+user.getId()+"_"+goodsId, String.class);
+        String redisPath = redisService.get(MiaoshaKey.getPath, "" + user.getId() + "_" + goodsId, String.class);
         if (!path.equals(redisPath)) {
             return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }

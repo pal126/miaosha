@@ -6,6 +6,7 @@ public class UUIDUtil {
 
     /**
      * JDK自带UUID,不带"-"
+     *
      * @return
      */
     public static String uuid() {

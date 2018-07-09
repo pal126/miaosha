@@ -26,6 +26,7 @@ public class MiaoshaService {
      * long 成功
      * -1 秒杀失败
      * 0  正在排队
+     *
      * @param userId
      * @param goodsId
      * @return
@@ -46,6 +47,7 @@ public class MiaoshaService {
 
     /**
      * 秒杀活动下单
+     *
      * @param user
      * @param goodsVo
      * @return

@@ -7,7 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * rabbitMQ配置
+ *
+ * @author pal
+ */
 @Configuration
 public class MQConfig {
 

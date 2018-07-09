@@ -32,7 +32,7 @@ public class UserService {
         if (user != null) {
             return user;
         }
-        user =  userDao.getById(id);
+        user = userDao.getById(id);
         if (user != null) {
             redisService.set(UserKey.getById, "" + id, user);
         }
@@ -44,7 +44,7 @@ public class UserService {
         if (user == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        user.setPassword(MD5Util.formPassToDBPass(formPass,user.getSalt()));
+        user.setPassword(MD5Util.formPassToDBPass(formPass, user.getSalt()));
         userDao.update(user);
         //更新redis
         redisService.set(UserKey.getById, "" + id, user);
@@ -54,17 +54,18 @@ public class UserService {
 
     /**
      * 验证cookie里的token
+     *
      * @param response
      * @param token
      * @return
      */
     public User getByToken(HttpServletResponse response, String token) {
-        if(StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)) {
             return null;
         }
         User user = redisService.get(UserKey.token, token, User.class);
         //延长有效期
-        if(user != null) {
+        if (user != null) {
             addCookie(response, token, user);
         }
         return user;
@@ -72,6 +73,7 @@ public class UserService {
 
     /**
      * 登陆
+     *
      * @param response
      * @param loginVo
      * @return
@@ -86,7 +88,7 @@ public class UserService {
         if (user == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        String pass = MD5Util.formPassToDBPass(loginVo.getPassword(),user.getSalt());
+        String pass = MD5Util.formPassToDBPass(loginVo.getPassword(), user.getSalt());
         //密码是否正确
         if (!pass.equals(user.getPassword())) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
@@ -98,6 +100,7 @@ public class UserService {
 
     /**
      * 添加token到cookie
+     *
      * @param response
      * @param token
      * @param user

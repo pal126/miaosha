@@ -24,12 +24,13 @@ public class OrderService {
 
     /**
      * 判断是否已经秒杀
+     *
      * @param userId
      * @param goodsId
      * @return
      */
     public MiaoshaOrder getOrderByUserIdGoodsId(Long userId, Long goodsId) {
-        return redisService.get(OrderKey.getOrderByUidGid, ""+userId+"_"+goodsId, MiaoshaOrder.class);
+        return redisService.get(OrderKey.getOrderByUidGid, "" + userId + "_" + goodsId, MiaoshaOrder.class);
     }
 
     public OrderInfo getOrderById(Long orderId) {
@@ -38,6 +39,7 @@ public class OrderService {
 
     /**
      * 下订单
+     *
      * @param user
      * @param goodsVo
      * @return
@@ -60,7 +62,7 @@ public class OrderService {
         miaoshaOrder.setUserId(user.getId());
         miaoshaOrder.setOrderId(orderInfo.getId());
         orderDao.insertMiaoshaOrder(miaoshaOrder);
-        redisService.set(OrderKey.getOrderByUidGid, ""+user.getId()+"_"+goodsVo.getId(), miaoshaOrder);
+        redisService.set(OrderKey.getOrderByUidGid, "" + user.getId() + "_" + goodsVo.getId(), miaoshaOrder);
         return orderInfo;
     }
 

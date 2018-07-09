@@ -8,8 +8,10 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * 验证手机号码
+ *
+ * @author pal
  */
-public class IsMobileValidator implements ConstraintValidator<IsMobile,String> {
+public class IsMobileValidator implements ConstraintValidator<IsMobile, String> {
 
     private boolean required = false;
 
@@ -22,10 +24,10 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile,String> {
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
         if (required) {
             return ValidatorUtil.isMobile(s);
-        }else {
+        } else {
             if (StringUtils.isEmpty(s)) {
                 return true;
-            }else {
+            } else {
                 return ValidatorUtil.isMobile(s);
             }
         }

@@ -16,6 +16,7 @@ public class GoodsService {
 
     /**
      * 商品列表
+     *
      * @return
      */
     public List<GoodsVo> listGoodsVo() {
@@ -24,6 +25,7 @@ public class GoodsService {
 
     /**
      * 商品详情
+     *
      * @return
      */
     public GoodsVo getGoodsVo(Long id) {
@@ -32,6 +34,7 @@ public class GoodsService {
 
     /**
      * 减库存
+     *
      * @param goodsVo
      * @return
      */

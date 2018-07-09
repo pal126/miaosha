@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 public @interface AccessLimit {
     int seconds();
+
     int maxCount();
+
     boolean needLogin() default true;
 }

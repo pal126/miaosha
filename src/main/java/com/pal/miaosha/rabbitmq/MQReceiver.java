@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * rabbitMQ Receiver
+ *
  * @author pal
- * @date 2018/05/21
  */
 @Slf4j
 @Service
@@ -32,6 +32,7 @@ public class MQReceiver {
 
     /**
      * 秒杀订单
+     *
      * @param message
      */
     @RabbitListener(queues = MQConfig.ORDER_QUEUE)
@@ -45,7 +46,7 @@ public class MQReceiver {
             return;
         }
         //判断是否已经秒杀
-        MiaoshaOrder miaoshaOrder = orderService.getOrderByUserIdGoodsId(user.getId(),goodsVo.getId());
+        MiaoshaOrder miaoshaOrder = orderService.getOrderByUserIdGoodsId(user.getId(), goodsVo.getId());
         if (miaoshaOrder != null) {
             return;
         }
@@ -55,7 +56,7 @@ public class MQReceiver {
 
     @RabbitListener(queues = MQConfig.QUEUE)
     public void receice(String message) {
-        log.info("msg:{}",message);
+        log.info("msg:{}", message);
     }
 
     @RabbitListener(queues = MQConfig.TOPIC_QUEUE1)
@@ -65,17 +66,17 @@ public class MQReceiver {
         for (int i = 0; i < chars.length; i++) {
             sbu.append((char) Integer.parseInt(chars[i]));
         }
-        log.info("msg:{}",sbu.toString());
+        log.info("msg:{}", sbu.toString());
     }
 
     @RabbitListener(queues = MQConfig.TOPIC_QUEUE2)
     public void receiceTopic2(String message) {
-        log.info("接收数据msg:{}",message);
+        log.info("接收数据msg:{}", message);
     }
 
     @RabbitListener(queues = MQConfig.HEADERS_QUEUE)
     public void receiceHeader(byte[] message) {
-        log.info("msg:{}",message.toString());
+        log.info("msg:{}", message.toString());
     }
 
 }

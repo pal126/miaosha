@@ -4,8 +4,8 @@ import com.pal.miaosha.domain.User;
 
 /**
  * 多线程下保证线程安全的一种访问方式
+ *
  * @author pal
- * @date 2018/05/16
  */
 public class UserContext {
 

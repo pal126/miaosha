@@ -9,6 +9,7 @@ public interface OrderDao {
 
     /**
      * 判断是否已经秒杀
+     *
      * @param userId
      * @param goodsId
      * @return
@@ -18,6 +19,7 @@ public interface OrderDao {
 
     /**
      * 下订单 orderInfo
+     *
      * @param orderInfo
      * @return
      */
@@ -28,6 +30,7 @@ public interface OrderDao {
 
     /**
      * 下订单 miaoshaOrder
+     *
      * @param miaoshaOrder
      * @return
      */

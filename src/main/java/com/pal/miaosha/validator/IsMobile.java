@@ -5,7 +5,9 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * 验证手机号码注解
+ * 验证手机号码
+ *
+ * @author pal
  */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

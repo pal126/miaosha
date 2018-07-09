@@ -13,8 +13,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * 处理参数为User的congtroller
+ *
  * @author pal
- * @date 2018/5.09
  */
 @Service
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {

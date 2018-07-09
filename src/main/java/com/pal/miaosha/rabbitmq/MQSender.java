@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * rabbitMQ Sender
+ *
  * @author pal
- * @date 2018/05/21
  */
 @Slf4j
 @Service
@@ -22,25 +22,28 @@ public class MQSender {
 
     /**
      * 秒杀订单
+     *
      * @param orderMessage
      */
     public void sendOrderMessage(OrderMessage orderMessage) {
         String msg = RedisService.beanToString(orderMessage);
         log.info("msg:{}", msg);
-        amqpTemplate.convertAndSend(MQConfig.ORDER_QUEUE,msg);
+        amqpTemplate.convertAndSend(MQConfig.ORDER_QUEUE, msg);
     }
 
     /**
      * Direct
+     *
      * @param message
      */
     public void send(Object message) {
         String msg = RedisService.beanToString(message);
-        amqpTemplate.convertAndSend(MQConfig.QUEUE,msg);
+        amqpTemplate.convertAndSend(MQConfig.QUEUE, msg);
     }
 
     /**
      * Topic
+     *
      * @param message
      */
     public void sendTopic(Object message) {
@@ -51,6 +54,7 @@ public class MQSender {
 
     /**
      * Fanout
+     *
      * @param message
      */
     public void sendFanout(Object message) {
@@ -60,6 +64,7 @@ public class MQSender {
 
     /**
      * Header
+     *
      * @param message
      */
     public void sendHeader(Object message) {

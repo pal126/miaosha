@@ -12,6 +12,8 @@ import java.net.BindException;
 
 /**
  * 全局异常处理器
+ *
+ * @author pal
  */
 @Slf4j
 @ControllerAdvice
@@ -19,7 +21,7 @@ import java.net.BindException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
+    public Result<String> exceptionHandler(HttpServletRequest request, Exception e) {
         if (e instanceof GlobalException) {
             GlobalException ge = (GlobalException) e;
             return Result.error(ge.getCodeMsg());
@@ -28,7 +30,7 @@ public class GlobalExceptionHandler {
             BindException ex = (BindException) e;
             String msg = ex.getMessage();
             return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
-        }else {
+        } else {
             log.error("exception:{}", e.toString());
             return Result.error(CodeMsg.SERVER_ERROR);
         }

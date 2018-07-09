@@ -20,8 +20,8 @@ import java.io.OutputStream;
 
 /**
  * AccessLimit拦截器
+ *
  * @author pal
- * @date 2018/05/16
  */
 @Service
 public class AccessInterceptor extends HandlerInterceptorAdapter {
@@ -35,9 +35,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     /**
      * 拦截业务处理
      * preHandle在进入controller之前调用
-     * @param request request
+     *
+     * @param request  request
      * @param response response
-     * @param handler handler
+     * @param handler  handler
      * @return boolean
      * @throws Exception Exception
      */
@@ -87,10 +88,11 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     /**
      * 关闭threadLocal
      * 在所有动作完成后调用afterCompletion
-     * @param request request
+     *
+     * @param request  request
      * @param response response
-     * @param handler handler
-     * @param ex ex
+     * @param handler  handler
+     * @param ex       ex
      * @throws Exception Exception
      */
     @Override
@@ -100,8 +102,9 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 返回消息到前端
+     *
      * @param response response
-     * @param codeMsg codeMsg
+     * @param codeMsg  codeMsg
      * @throws Exception Exception
      */
     private void render(HttpServletResponse response, CodeMsg codeMsg) throws Exception {
@@ -115,7 +118,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     private User getUser(HttpServletRequest request, HttpServletResponse response) {
         String paramToken = request.getParameter(UserService.COOKIE_NAME_TOKEN);
-        String cookieToken = getCookieValue(request,UserService.COOKIE_NAME_TOKEN);
+        String cookieToken = getCookieValue(request, UserService.COOKIE_NAME_TOKEN);
         if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
             return null;
         }
